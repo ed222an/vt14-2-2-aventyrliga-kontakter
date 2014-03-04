@@ -4,7 +4,7 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head id="Head1" runat="server">
-    <title>Kundkontakter (version 1, ADO.NET)</title>
+    <title>Äventyrliga Kontakter</title>
     <link href="Content/reset.css" rel="stylesheet" />
     <link href="Content/site.css" rel="stylesheet" />
 </head>
@@ -35,7 +35,7 @@
                     <table class="grid">
                         <tr>
                             <th>
-                                Föramn
+                                Förnamn
                             </th>
                             <th>
                                 Efternamn
@@ -120,5 +120,8 @@
             </form>
         </div>
     </div>
+    <script src="Scripts/jquery-2.1.0.intellisense.js"></script>
+    <script src="Scripts/jquery-2.1.0.js"></script>
+    <script src="Scripts/jquery-2.1.0.min.js"></script>
 </body>
 </html>
