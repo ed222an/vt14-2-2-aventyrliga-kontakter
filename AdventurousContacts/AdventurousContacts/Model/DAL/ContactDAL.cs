@@ -2,41 +2,11 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
-using System.Web.Configuration;
 
 namespace AdventurousContacts.Model.DAL
 {
-    public class ContactDAL
+    public class ContactDAL : DALBase
     {
-        #region Fält
-
-        // Sträng med information som används för att ansluta till "SQL Server"-databasen.
-        // (Ett statiskt fält tillhör klassen och delas av alla instanser  av klassen).
-        private static string _connectionString;
-
-        #endregion
-
-        #region Kontruktorer
-
-        // Initierar statiskt data. (Konstruktorn anropas automatiskt innan första instansen skapas
-        // eller innan någon statisk medlem används.)
-        static ContactDAL()
-        {
-            // Hämtar anslutningssträngen från web.config.
-            _connectionString = WebConfigurationManager.ConnectionStrings["AdventurousContactsConnectionString"].ConnectionString;
-        }
-
-        #endregion
-
-        #region Privata hjälpmetoder
-
-        // Skapar och initierar ett nytt asnlutningsobjekt.
-        private static SqlConnection CreateConnection()
-        {
-            return new SqlConnection(_connectionString);
-        }
-
-        #endregion
 
         #region CRUD-metoder
 

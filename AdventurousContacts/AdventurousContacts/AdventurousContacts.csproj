@@ -91,6 +91,7 @@
     <Content Include="Scripts\jquery-2.1.0.min.map" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="App_Infrastructure\ValidationExtensions.cs" />
     <Compile Include="Default.aspx.cs">
       <DependentUpon>Default.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -100,6 +101,7 @@
     </Compile>
     <Compile Include="Model\Contact.cs" />
     <Compile Include="Model\DAL\ContactDAL.cs" />
+    <Compile Include="Model\DAL\DALBase.cs" />
     <Compile Include="Model\Service.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
