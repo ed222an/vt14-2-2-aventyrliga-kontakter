@@ -7,6 +7,19 @@ html, body, form, fieldset
     padding: 0;
 }
 
+.fluff {
+    height:40px;
+    width:600px;
+    background-color:lightgreen;
+    border:3px solid black;
+    margin:10px;
+    font-size: 20px;
+    font-weight:bold;
+}
+.img {
+    float:right;
+}
+
     form label
     {
         cursor: pointer;
@@ -15,6 +28,8 @@ html, body, form, fieldset
 h1
 {
     color: #333333;
+    font-size:30px;
+    font-weight:bold;
 }
 
 body
@@ -23,13 +38,6 @@ body
     font-family: "Times New Roman",Times,serif;
     font-size: 76%;
 }
-
-/*a:link, a:visited
-{
-    background: none repeat scroll 0 0 #FFF500;
-    color: #333333;
-    text-decoration: none;
-}*/
 
 input
 {

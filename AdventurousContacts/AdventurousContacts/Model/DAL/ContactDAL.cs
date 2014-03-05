@@ -85,8 +85,7 @@ namespace AdventurousContacts.Model.DAL
                     SqlCommand cmd = new SqlCommand("Person.uspGetContact", conn);
                     cmd.CommandType = CommandType.StoredProcedure;
 
-                    // Lägger till den paramter den lagrade proceduren kräver. Använder här det MINDRE effektiva 
-                    // sätttet att göra det på - enkelt, men ASP.NET behöver "jobba" rätt mycket.
+                    // Lägger till den paramter den lagrade proceduren kräver.
                     cmd.Parameters.AddWithValue("@ContactID", contactId);
 
                     // Öppnar anslutningen till databasen.
@@ -147,8 +146,7 @@ namespace AdventurousContacts.Model.DAL
                     SqlCommand cmd = new SqlCommand("Person.uspAddContact", conn);
                     cmd.CommandType = CommandType.StoredProcedure;
 
-                    // Lägger till de paramterar den lagrade proceduren kräver. Använder här det effektiva sätttet att
-                    // göra det på - något "svårare" men ASP.NET behöver inte "jobba" så mycket.
+                    // Lägger till de paramterar den lagrade proceduren kräver.
                     cmd.Parameters.Add("@FirstName", SqlDbType.NVarChar, 50).Value = contact.FirstName;
                     cmd.Parameters.Add("@LastName", SqlDbType.NVarChar, 50).Value = contact.LastName;
                     cmd.Parameters.Add("@EmailAddress", SqlDbType.NVarChar, 50).Value = contact.EmailAddress;
@@ -188,10 +186,18 @@ namespace AdventurousContacts.Model.DAL
                     SqlCommand cmd = new SqlCommand("Person.uspUpdateContact", conn);
                     cmd.CommandType = CommandType.StoredProcedure;
 
+                    // Lägger till de paramterar den lagrade proceduren kräver.
+                    cmd.Parameters.Add("@FirstName", SqlDbType.NVarChar, 50).Value = contact.FirstName;
+                    cmd.Parameters.Add("@LastName", SqlDbType.NVarChar, 50).Value = contact.LastName;
+                    cmd.Parameters.Add("@EmailAddress", SqlDbType.NVarChar, 50).Value = contact.EmailAddress;
+                    cmd.Parameters.Add("@ContactID", SqlDbType.Int, 4).Value = contact.ContactID;
+
+                    // Öppnar anslutningen till databasen.
                     conn.Open();
 
-                    // TODO: Implementera UpdateContact.
-                    throw new NotImplementedException();
+                    // Den lagrade proceduren innehåller en UPDATE-sats och returnerar inga poster varför metoden 
+                    // ExecuteNonQuery används för att exekvera den lagrade proceduren.
+                    cmd.ExecuteNonQuery();
                 }
                 catch
                 {
@@ -212,10 +218,14 @@ namespace AdventurousContacts.Model.DAL
                     SqlCommand cmd = new SqlCommand("Person.uspRemoveContact", conn);
                     cmd.CommandType = CommandType.StoredProcedure;
 
+                    cmd.Parameters.Add("@ContactID", SqlDbType.Int).Value = contactId;
+
+                    // Öppnar anslutningen till databasen.
                     conn.Open();
 
-                    // TODO: Implementera DeleteContact.
-                    throw new NotImplementedException();
+                    // Den lagrade proceduren innehåller en DELETE-sats och returnerar inga poster varför metoden 
+                    // ExecuteNonQuery används för att exekvera den lagrade proceduren.
+                    cmd.ExecuteNonQuery();
                 }
                 catch
                 {

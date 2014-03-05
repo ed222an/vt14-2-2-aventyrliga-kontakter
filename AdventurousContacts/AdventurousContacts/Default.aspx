@@ -15,6 +15,10 @@
             <h1>
                 Kontakter
             </h1>
+            <asp:Panel ID="SuccessPanel" runat="server" Visible="false" CssClass="fluff">
+                <asp:Label ID="SuccesLabel" runat="server" Text="Skapandet av kontakten lyckades!"></asp:Label>
+                <asp:ImageButton ID="CloseImageButton" runat="server" CssClass="img" OnClick="CloseImageButton_Click" ImageUrl="~/Content/dialog_close.ico" CausesValidation="false" />
+            </asp:Panel>
             <asp:ValidationSummary ID="ValidationSummary1" runat="server" HeaderText="Fel inträffade. Korrigera det som är fel och försök igen."
             CssClass="validation-summary-errors" />
             <%-- 
@@ -47,6 +51,15 @@
                         <%-- Platshållare för nya rader --%>
                         <asp:PlaceHolder ID="itemPlaceholder" runat="server" />
                     </table>
+                    <asp:DataPager ID="DataPager1" runat="server" PageSize="5">
+                        <Fields>
+                            <asp:NextPreviousPagerField ShowFirstPageButton="true" FirstPageText=" <<"
+                                ShowNextPageButton="false" ShowPreviousPageButton="false" />
+                            <asp:NumericPagerField />
+                            <asp:NextPreviousPagerField ShowLastPageButton="true" LastPageText=" >>"
+                                ShowNextPageButton="false" ShowPreviousPageButton="false" />
+                        </Fields>
+                    </asp:DataPager>
                 </LayoutTemplate>
                 <ItemTemplate>
                     <%-- Mall för nya rader. --%>
@@ -62,7 +75,7 @@
                         </td>
                         <td class="command">
                             <%-- "Kommandknappar" för att ta bort och redigera kontaktuppgifter. Kommandonamnen är VIKTIGA! --%>
-                            <asp:LinkButton ID="LinkButton1" runat="server" CommandName="Delete" Text="Ta bort" CausesValidation="false" />
+                            <asp:LinkButton ID="LinkButton1" runat="server" CommandName="Delete" Text="Ta bort" CausesValidation="false" OnClientClick="Confirm();" />
                             <asp:LinkButton ID="LinkButton2" runat="server" CommandName="Edit" Text="Redigera" CausesValidation="false" />
                         </td>
                     </tr>
@@ -82,13 +95,30 @@
                      har värdet FirstItemPosition eller LasItemPosition.--%>
                     <tr>
                         <td>
-                            <asp:TextBox ID="FirstName" runat="server" Text='<%# BindItem.FirstName %>' />
+                            <asp:TextBox ID="FirstName" runat="server" Text='<%# BindItem.FirstName %>' MaxLength="50" />
+<%--                            <asp:RequiredFieldValidator ID="RequiredFieldValidator1" runat="server"
+                                ErrorMessage="Fältet får inte vara tomt!"
+                                ControlToValidate="FirstName"
+                                Display="None"></asp:RequiredFieldValidator>--%>
                         </td>
                         <td>
-                            <asp:TextBox ID="LastName" runat="server" Text='<%# BindItem.LastName %>' />
+                            <asp:TextBox ID="LastName" runat="server" Text='<%# BindItem.LastName %>' MaxLength="50" />
+<%--                            <asp:RequiredFieldValidator ID="RequiredFieldValidator2" runat="server"
+                                ErrorMessage="Fältet får inte vara tomt!"
+                                ControlToValidate="LastName"
+                                Display="None"></asp:RequiredFieldValidator>--%>
                         </td>
                         <td>
-                            <asp:TextBox ID="EmailAddress" runat="server" Text='<%# BindItem.EmailAddress %>' />
+                            <asp:TextBox ID="EmailAddress" runat="server" Text='<%# BindItem.EmailAddress %>' MaxLength="50" />
+<%--                            <asp:RequiredFieldValidator ID="RequiredFieldValidator3" runat="server"
+                                ErrorMessage="Fältet får inte vara tomt!"
+                                ControlToValidate="EmailAddress"
+                                Display="None"></asp:RequiredFieldValidator>
+                            <asp:RegularExpressionValidator ID="RegularExpressionValidator1" runat="server"
+                                ErrorMessage="Mailaddressen är inte giltig!"
+                                ControlToValidate="EmailAddress"
+                                Display="None"
+                                ValidationExpression="^([\w\.\-]+)@([\w\-]+)((\.(\w){2,3})+)$"></asp:RegularExpressionValidator>--%>
                         </td>
                         <td>
                             <%-- "Kommandknappar" för att lägga till en ny kontaktuppgift och rensa texfälten. Kommandonamnen är VIKTIGA! --%>
@@ -123,5 +153,6 @@
     <script src="Scripts/jquery-2.1.0.intellisense.js"></script>
     <script src="Scripts/jquery-2.1.0.js"></script>
     <script src="Scripts/jquery-2.1.0.min.js"></script>
+    <script src="Scripts/confirm.js"></script>
 </body>
 </html>

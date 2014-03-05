@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Web.UI;
 using System.Collections.Generic;
 using AdventurousContacts.Model;
 
@@ -6,6 +7,12 @@ namespace AdventurousContacts
 {
     public partial class Default : System.Web.UI.Page
     {
+        private bool SuccessMessage
+        {
+            get { return Session["SuccessMessage"] as bool? == true; }
+            set { Session["SuccessMessage"] = value; }
+        }
+
         private Service _service;
 
         private Service Service
@@ -15,7 +22,11 @@ namespace AdventurousContacts
 
         protected void Page_Load(object sender, EventArgs e)
         {
-
+            if (SuccessMessage)
+            {
+                SuccessPanel.Visible = true;
+                Session.Remove("SuccessMessage");
+            }
         }
 
         public IEnumerable<Contact> ContactListView_GetData()
@@ -38,20 +49,11 @@ namespace AdventurousContacts
                 try
                 {
                     Service.SaveContact(contact);
+                    Session["SuccessMessage"] = true;
+                    Response.Redirect("default.aspx");
                 }
                 catch (Exception ex)
                 {
-                    //var validationResults = ex.Data["ValidationResults"] as IEnumerable<ValidationResult>;
-                    //if (validationResults != null && validationResults.Any())
-                    //{
-                    //    foreach (var validationResult in validationResults)
-                    //    {
-                    //        foreach (var memberName in validationResult.MemberNames)
-                    //        {
-                    //            ModelState.AddModelError(memberName, validationResult.ErrorMessage);
-                    //        }
-                    //    }
-                    //}
                     ModelState.AddModelError(String.Empty, "Ett oväntat fel inträffade då kontaktuppgiften skulle läggas till.");
                 }
             }
@@ -87,12 +89,21 @@ namespace AdventurousContacts
         {
             try
             {
-                Service.DeleteContact(contactId);
+                string confirmValue = Request.Form["confirm_value"];
+                if (confirmValue == "Yes")
+                {
+                    Service.DeleteContact(contactId);
+                }
             }
             catch (Exception)
             {
                 ModelState.AddModelError(String.Empty, "Ett oväntat fel inträffade då kontaktuppgiften skulle tas bort.");
             }
+        }
+
+        protected void CloseImageButton_Click(object sender, ImageClickEventArgs e)
+        {
+            SuccessPanel.Visible = false;
         }
     }
 }
