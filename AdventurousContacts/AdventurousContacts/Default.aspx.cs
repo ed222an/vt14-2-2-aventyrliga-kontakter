@@ -7,10 +7,23 @@ namespace AdventurousContacts
 {
     public partial class Default : System.Web.UI.Page
     {
-        private bool SuccessMessage
+        private string SuccessMessage
         {
-            get { return Session["SuccessMessage"] as bool? == true; }
+            get
+            {
+                string successMessage = Session["SuccessMessage"] as string;
+                Session.Remove("SuccessMessage");
+                return successMessage;
+            }
             set { Session["SuccessMessage"] = value; }
+        }
+
+        public bool ExistingMessage
+        {
+            get
+            {
+                return Session["SuccessMessage"] != null;
+            }
         }
 
         private Service _service;
@@ -22,24 +35,16 @@ namespace AdventurousContacts
 
         protected void Page_Load(object sender, EventArgs e)
         {
-            if (SuccessMessage)
+            if (ExistingMessage)
             {
                 SuccessPanel.Visible = true;
-                Session.Remove("SuccessMessage");
+                SuccesLabel.Text = SuccessMessage;
             }
         }
 
-        public IEnumerable<Contact> ContactListView_GetData()
+        public IEnumerable<Contact> ContactListView_GetData(int maximumRows, int startRowIndex, out int totalRowCount)
         {
-            try
-            {
-                return Service.GetContacts();
-            }
-            catch (Exception)
-            {
-                ModelState.AddModelError(String.Empty, "Ett oväntat fel inträffade då kontaktuppgifter skulle hämtas.");
-                return null;
-            }
+            return Service.GetContactsPageWise(maximumRows, startRowIndex, out totalRowCount);
         }
 
         public void ContactListView_InsertItem(Contact contact)
@@ -49,8 +54,8 @@ namespace AdventurousContacts
                 try
                 {
                     Service.SaveContact(contact);
-                    Session["SuccessMessage"] = true;
-                    Response.Redirect("default.aspx");
+                    SuccessMessage = String.Format("Skapandet av den nya kontakten lyckades!");
+                    Response.Redirect(Request.Path);
                 }
                 catch (Exception ex)
                 {
@@ -76,6 +81,8 @@ namespace AdventurousContacts
                 if (TryUpdateModel(contact))
                 {
                     Service.SaveContact(contact);
+                    SuccessMessage = String.Format("Uppdateringen av kontakten lyckades!");
+                    Response.Redirect(Request.Path);
                 }
             }
             catch (Exception)
@@ -93,6 +100,8 @@ namespace AdventurousContacts
                 if (confirmValue == "Yes")
                 {
                     Service.DeleteContact(contactId);
+                    SuccessMessage = String.Format("Borttagandet av kontakten lyckades!");
+                    Response.Redirect(Request.Path);
                 }
             }
             catch (Exception)

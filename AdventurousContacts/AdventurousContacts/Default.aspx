@@ -51,7 +51,7 @@
                         <%-- Platshållare för nya rader --%>
                         <asp:PlaceHolder ID="itemPlaceholder" runat="server" />
                     </table>
-                    <asp:DataPager ID="DataPager1" runat="server" PageSize="5">
+                    <asp:DataPager ID="DataPager1" runat="server" PageSize="20">
                         <Fields>
                             <asp:NextPreviousPagerField ShowFirstPageButton="true" FirstPageText=" <<"
                                 ShowNextPageButton="false" ShowPreviousPageButton="false" />

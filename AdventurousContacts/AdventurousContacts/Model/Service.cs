@@ -1,8 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using AdventurousContacts.Model.DAL;
 using System.ComponentModel.DataAnnotations;
 using AdventurousContacts.App_Infrastructure;
-using System;
 
 namespace AdventurousContacts.Model
 {
@@ -22,24 +22,6 @@ namespace AdventurousContacts.Model
         public void DeleteContact(int contactId)
         {
             ContactDAL.DeleteContact(contactId);
-        }
-
-        // Hämtar en kontakt med ett specifikt kontaktnummer från databasen.
-        public Contact GetContact(int contactId)
-        {
-            return ContactDAL.GetContactById(contactId);
-        }
-
-        // Hämtar alla kontakter som finns lagrade i databasen.
-        public IEnumerable<Contact> GetContacts()
-        {
-            return ContactDAL.GetContacts();
-        }
-
-        public IEnumerable<Contact> GetContactsPageWise(int maximumRows, int startRowIndex, out int totalRowCount)
-        {
-            // TODO: Implementera GetContactsPageWise
-            throw new NotImplementedException();
         }
 
         // Spara en kontakts kontaktuppgifter i databasen.
@@ -64,6 +46,23 @@ namespace AdventurousContacts.Model
             {
                 ContactDAL.UpdateContact(contact);
             }
+        }
+
+        // Hämtar en kontakt med ett specifikt kontaktnummer från databasen.
+        public Contact GetContact(int contactId)
+        {
+            return ContactDAL.GetContactById(contactId);
+        }
+
+        // Hämtar alla kontakter som finns lagrade i databasen.
+        public IEnumerable<Contact> GetContacts()
+        {
+            return ContactDAL.GetContacts();
+        }
+
+        public IEnumerable<Contact> GetContactsPageWise(int maximumRows, int startRowIndex, out int totalRowCount)
+        {
+            return ContactDAL.GetContactsPageWise(maximumRows, startRowIndex, out totalRowCount);
         }
 
         #endregion
