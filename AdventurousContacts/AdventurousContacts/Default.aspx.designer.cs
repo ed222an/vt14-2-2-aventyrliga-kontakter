@@ -40,13 +40,13 @@ namespace AdventurousContacts {
         protected global::System.Web.UI.WebControls.Panel SuccessPanel;
         
         /// <summary>
-        /// SuccesLabel control.
+        /// SuccessLabel control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label SuccesLabel;
+        protected global::System.Web.UI.WebControls.Label SuccessLabel;
         
         /// <summary>
         /// CloseImageButton control.

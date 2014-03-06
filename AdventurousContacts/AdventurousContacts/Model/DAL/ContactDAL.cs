@@ -18,7 +18,7 @@ namespace AdventurousContacts.Model.DAL
             {
                 try
                 {
-                    // Skapar det List-objekt som initialt har plats för 100 referenser till Contact-objekt.
+                    // Skapar ett List-objekt med 100 platser.
                     var contacts = new List<Contact>(100);
 
                     // Skapar och initierar ett SqlCommand-objekt som används till att exekveras specifierad lagrad procedur.
@@ -67,7 +67,7 @@ namespace AdventurousContacts.Model.DAL
             {
                 try
                 {
-                    // Skapar det List-objekt som initialt har plats för 100 referenser till Contact-objekt.
+                    // Skapar ett List-objekt med 100 platser.
                     var contacts = new List<Contact>(100);
 
                     // Skapar och initierar ett SqlCommand-objekt som används till att exekveras specifierad lagrad procedur.

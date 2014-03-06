@@ -16,17 +16,14 @@
                 Kontakter
             </h1>
             <asp:Panel ID="SuccessPanel" runat="server" Visible="false" CssClass="fluff">
-                <asp:Label ID="SuccesLabel" runat="server" Text="Skapandet av kontakten lyckades!"></asp:Label>
+                <asp:Label ID="SuccessLabel" runat="server" Text="Skapandet av kontakten lyckades!"></asp:Label>
                 <asp:ImageButton ID="CloseImageButton" runat="server" CssClass="img" OnClick="CloseImageButton_Click" ImageUrl="~/Content/dialog_close.ico" CausesValidation="false" />
             </asp:Panel>
-            <asp:ValidationSummary ID="ValidationSummary1" runat="server" HeaderText="Fel inträffade. Korrigera det som är fel och försök igen."
-            CssClass="validation-summary-errors" />
-            <%-- 
-                    Visar alla kontakter.
-                    Hämtar alla kontaktuppgifter som finns i tabellen Contact i databasen via affärslogikklassen Service och 
-                    metoden GetContacts, som i sin tur använder klassen ContactDAL och metoden GetContacts, som skapar en
-                    lista med referenser till Contact-objekt; ett Contact-objekt för varje post i tabellen. 
-            --%>
+            <asp:ValidationSummary ID="ValidationSummary1" runat="server" HeaderText="Ett fel har inträffat. Korrigera felet och försök igen."
+            CssClass="validation-summary-errors" 
+                ValidationGroup="Validations"/>
+
+            <%-- Visar alla kontakter --%>
             <asp:ListView ID="ContactListView" runat="server"
                 ItemType="AdventurousContacts.Model.Contact"
                 SelectMethod="ContactListView_GetData"
@@ -74,14 +71,14 @@
                             <asp:Label ID="EmailAddressLabel" runat="server" Text='<%#: Item.EmailAddress %>' />
                         </td>
                         <td class="command">
-                            <%-- "Kommandknappar" för att ta bort och redigera kontaktuppgifter. Kommandonamnen är VIKTIGA! --%>
+                            <%-- "Kommandknappar" för att ta bort och redigera kontaktuppgifter --%>
                             <asp:LinkButton ID="LinkButton1" runat="server" CommandName="Delete" Text="Ta bort" CausesValidation="false" OnClientClick="Confirm();" />
                             <asp:LinkButton ID="LinkButton2" runat="server" CommandName="Edit" Text="Redigera" CausesValidation="false" />
                         </td>
                     </tr>
                 </ItemTemplate>
                 <EmptyDataTemplate>
-                    <%-- Detta visas då kontaktuppgifter saknas i databasen. --%>
+                    <%-- Detta visas då kontaktuppgifter saknas i databasen --%>
                     <table class="grid">
                         <tr>
                             <td>
@@ -91,37 +88,40 @@
                     </table>
                 </EmptyDataTemplate>
                 <InsertItemTemplate>
-                    <%-- Mall för rad i tabellen för att lägga till nya kontaktuppgifter. Visas bara om InsertItemPosition 
-                     har värdet FirstItemPosition eller LasItemPosition.--%>
+                    <%-- Mall för rad i tabellen för att lägga till nya kontaktuppgifter --%>
                     <tr>
                         <td>
                             <asp:TextBox ID="FirstName" runat="server" Text='<%# BindItem.FirstName %>' MaxLength="50" />
-<%--                            <asp:RequiredFieldValidator ID="RequiredFieldValidator1" runat="server"
+                            <asp:RequiredFieldValidator ID="RequiredFieldValidator1" runat="server"
                                 ErrorMessage="Fältet får inte vara tomt!"
                                 ControlToValidate="FirstName"
-                                Display="None"></asp:RequiredFieldValidator>--%>
+                                Display="None"
+                                ValidationGroup="Validations"></asp:RequiredFieldValidator>
                         </td>
                         <td>
                             <asp:TextBox ID="LastName" runat="server" Text='<%# BindItem.LastName %>' MaxLength="50" />
-<%--                            <asp:RequiredFieldValidator ID="RequiredFieldValidator2" runat="server"
+                            <asp:RequiredFieldValidator ID="RequiredFieldValidator2" runat="server"
                                 ErrorMessage="Fältet får inte vara tomt!"
                                 ControlToValidate="LastName"
-                                Display="None"></asp:RequiredFieldValidator>--%>
+                                Display="None"
+                                ValidationGroup="Validations"></asp:RequiredFieldValidator>
                         </td>
                         <td>
                             <asp:TextBox ID="EmailAddress" runat="server" Text='<%# BindItem.EmailAddress %>' MaxLength="50" />
-<%--                            <asp:RequiredFieldValidator ID="RequiredFieldValidator3" runat="server"
+                            <asp:RequiredFieldValidator ID="RequiredFieldValidator3" runat="server"
                                 ErrorMessage="Fältet får inte vara tomt!"
                                 ControlToValidate="EmailAddress"
-                                Display="None"></asp:RequiredFieldValidator>
+                                Display="None"
+                                ValidationGroup="Validations"></asp:RequiredFieldValidator>
                             <asp:RegularExpressionValidator ID="RegularExpressionValidator1" runat="server"
                                 ErrorMessage="Mailaddressen är inte giltig!"
                                 ControlToValidate="EmailAddress"
                                 Display="None"
-                                ValidationExpression="^([\w\.\-]+)@([\w\-]+)((\.(\w){2,3})+)$"></asp:RegularExpressionValidator>--%>
+                                ValidationExpression="^([\w\.\-]+)@([\w\-]+)((\.(\w){2,3})+)$"
+                                ValidationGroup="Validations"></asp:RegularExpressionValidator>
                         </td>
                         <td>
-                            <%-- "Kommandknappar" för att lägga till en ny kontaktuppgift och rensa texfälten. Kommandonamnen är VIKTIGA! --%>
+                            <%-- "Kommandknappar" för att lägga till en ny kontaktuppgift och rensa texfälten --%>
                             <asp:LinkButton ID="LinkButton3" runat="server" CommandName="Insert" Text="Lägg till" />
                             <asp:LinkButton ID="LinkButton4" runat="server" CommandName="Cancel" Text="Rensa" CausesValidation="false" />
                         </td>
@@ -131,16 +131,37 @@
                     <%-- Mall för rad i tabellen för att redigera kontaktuppgifter. --%>
                     <tr>
                         <td>
-                            <asp:TextBox ID="FirstName" runat="server" Text='<%# BindItem.FirstName %>' />
+                            <asp:TextBox ID="FirstName1" runat="server" Text='<%# BindItem.FirstName %>' />
+                            <asp:RequiredFieldValidator ID="RequiredFieldValidator1" runat="server"
+                                ErrorMessage="Fältet får inte vara tomt!"
+                                ControlToValidate="FirstName1"
+                                Display="None"
+                                ValidationGroup="Validations"></asp:RequiredFieldValidator>
                         </td>
                         <td>
-                            <asp:TextBox ID="LastName" runat="server" Text='<%# BindItem.LastName %>' />
+                            <asp:TextBox ID="LastName1" runat="server" Text='<%# BindItem.LastName %>' />
+                            <asp:RequiredFieldValidator ID="RequiredFieldValidator2" runat="server"
+                                ErrorMessage="Fältet får inte vara tomt!"
+                                ControlToValidate="LastName1"
+                                Display="None"
+                                ValidationGroup="Validations"></asp:RequiredFieldValidator>
                         </td>
                         <td>
-                            <asp:TextBox ID="EmailAddress" runat="server" Text='<%# BindItem.EmailAddress %>' />
+                            <asp:TextBox ID="EmailAddress1" runat="server" Text='<%# BindItem.EmailAddress %>' />
+                            <asp:RequiredFieldValidator ID="RequiredFieldValidator3" runat="server"
+                                ErrorMessage="Fältet får inte vara tomt!"
+                                ControlToValidate="EmailAddress1"
+                                Display="None"
+                                ValidationGroup="Validations"></asp:RequiredFieldValidator>
+                            <asp:RegularExpressionValidator ID="RegularExpressionValidator1" runat="server"
+                                ErrorMessage="Mailaddressen är inte giltig!"
+                                ControlToValidate="EmailAddress1"
+                                Display="None"
+                                ValidationExpression="^([\w\.\-]+)@([\w\-]+)((\.(\w){2,3})+)$"
+                                ValidationGroup="Validations"></asp:RegularExpressionValidator>
                         </td>
                         <td>
-                            <%-- "Kommandknappar" för att uppdatera en kunduppgift och avbryta. Kommandonamnen är VIKTIGA! --%>
+                            <%-- "Kommandknappar" för att uppdatera en kunduppgift och avbryta --%>
                             <asp:LinkButton ID="LinkButton5" runat="server" CommandName="Update" Text="Spara" />
                             <asp:LinkButton ID="LinkButton6" runat="server" CommandName="Cancel" Text="Avbryt" CausesValidation="false" />
                         </td>

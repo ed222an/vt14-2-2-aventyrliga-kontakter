@@ -10,56 +10,58 @@ namespace AdventurousContacts.Model
     {
         #region Contact
 
+        // Privat fält
         private ContactDAL _contactDAL;
 
+        // Egenskap som skapar en ContactDAL-klass om det inte redan finns någon.
         private ContactDAL ContactDAL
         {
-            // Ett ContactDAL-objekt skapas först då det behövs för första gången
             get { return _contactDAL ?? (_contactDAL = new ContactDAL()); }
         }
 
-        // Tar bort specifierad kontakt ur databasen.
+        // Tar bort vald kontakt ur databasen.
         public void DeleteContact(int contactId)
         {
             ContactDAL.DeleteContact(contactId);
         }
 
-        // Spara en kontakts kontaktuppgifter i databasen.
+        // Sparar en kontakts kontaktuppgifter i databasen.
         public void SaveContact(Contact contact)
         {
             // Uppfyller inte objektet affärsreglerna...
             ICollection<ValidationResult> validationResults;
-            if (!contact.Validate(out validationResults)) // Använder "extension method" för valideringen!
+            if (!contact.Validate(out validationResults))
             {
-                // ...kastas ett undantag med ett allmänt felmeddelande samt en referens till samlingen med resultat av valideringen.
+                // Klarar inte objektet valideringen så kastas ett undantag, samt en referens till valideringssamlingen.
                 var ex = new ValidationException("Objektet klarade inte valideringen.");
                 ex.Data.Add("ValidationResults", validationResults);
                 throw ex;
             }
 
-            // Contact-objektet sparas antingen genom att en ny post skapas eller genom att en befintlig post uppdateras.
-            if (contact.ContactID == 0) // Ny post om ContactID är 0!
+            // Sparar contact-objektet. Är ContactID 0 skapas en ny kontakt...
+            if (contact.ContactID == 0)
             {
                 ContactDAL.InsertContact(contact);
             }
-            else // Annars är det en uppdatering som ska göras.
+            else //...annars uppdateras en befintlig.
             {
                 ContactDAL.UpdateContact(contact);
             }
         }
 
-        // Hämtar en kontakt med ett specifikt kontaktnummer från databasen.
+        // Hämtar en kontakt med ett specifikt id från databasen.
         public Contact GetContact(int contactId)
         {
             return ContactDAL.GetContactById(contactId);
         }
 
-        // Hämtar alla kontakter som finns lagrade i databasen.
+        // Hämtar alla kontakter ur databasen.
         public IEnumerable<Contact> GetContacts()
         {
             return ContactDAL.GetContacts();
         }
 
+        // Hämtar alla kontakter och visar givet antal per sida.
         public IEnumerable<Contact> GetContactsPageWise(int maximumRows, int startRowIndex, out int totalRowCount)
         {
             return ContactDAL.GetContactsPageWise(maximumRows, startRowIndex, out totalRowCount);

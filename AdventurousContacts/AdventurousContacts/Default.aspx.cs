@@ -7,6 +7,7 @@ namespace AdventurousContacts
 {
     public partial class Default : System.Web.UI.Page
     {
+        // Sessionsvariabel för meddelandesträng
         private string SuccessMessage
         {
             get
@@ -18,6 +19,7 @@ namespace AdventurousContacts
             set { Session["SuccessMessage"] = value; }
         }
 
+        // Kontrollerar ifall sessionsvariabeln är null.
         public bool ExistingMessage
         {
             get
@@ -26,8 +28,10 @@ namespace AdventurousContacts
             }
         }
 
+        // Privat fält för service-klass.
         private Service _service;
 
+        // Egenskap som initializerar ett service-objekt ifall det inte redan finns något.
         private Service Service
         {
             get { return _service ?? (_service = new Service()); }
@@ -35,18 +39,21 @@ namespace AdventurousContacts
 
         protected void Page_Load(object sender, EventArgs e)
         {
+            // Returnerar ExistingMessage true sätts texten i Succestill variabelns sträng och meddelandet visas.
             if (ExistingMessage)
             {
                 SuccessPanel.Visible = true;
-                SuccesLabel.Text = SuccessMessage;
+                SuccessLabel.Text = SuccessMessage;
             }
         }
 
+        // Visar listan med kontakter med givet antal kontakter per sida.
         public IEnumerable<Contact> ContactListView_GetData(int maximumRows, int startRowIndex, out int totalRowCount)
         {
             return Service.GetContactsPageWise(maximumRows, startRowIndex, out totalRowCount);
         }
 
+        // Lägget rill ny kontakt.
         public void ContactListView_InsertItem(Contact contact)
         {
             if (ModelState.IsValid)
@@ -64,7 +71,7 @@ namespace AdventurousContacts
             }
         }
 
-        // The id parameter name should match the DataKeyNames value set on the control
+        // Uppdaterar en befintlig kontakt.
         public void ContactListView_UpdateItem(int contactId)
         {
             try
@@ -91,11 +98,12 @@ namespace AdventurousContacts
             }
         }
 
-        // The id parameter name should match the DataKeyNames value set on the control
+        // Tar bort vald kontakt.
         public void ContactListView_DeleteItem(int contactId)
         {
             try
             {
+                // Kallar på javascript för att visa en confirm-box.
                 string confirmValue = Request.Form["confirm_value"];
                 if (confirmValue == "Yes")
                 {
@@ -110,6 +118,7 @@ namespace AdventurousContacts
             }
         }
 
+        // Klickar användaren på kryss-bilden så "stängs" meddelandepanelen.
         protected void CloseImageButton_Click(object sender, ImageClickEventArgs e)
         {
             SuccessPanel.Visible = false;
