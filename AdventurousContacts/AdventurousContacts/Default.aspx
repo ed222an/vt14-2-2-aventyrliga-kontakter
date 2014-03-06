@@ -5,8 +5,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head id="Head1" runat="server">
     <title>Äventyrliga Kontakter</title>
-    <link href="Content/reset.css" rel="stylesheet" />
-    <link href="Content/site.css" rel="stylesheet" />
+    <link href="~/Content/reset.css" rel="stylesheet" />
+    <link href="~/Content/site.css" rel="stylesheet" />
 </head>
 <body>
     <div id="page">
